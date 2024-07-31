@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Machine Learning</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong>Back to Homepage</strong> Joseph Lewis Portfolio</a>
+									
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Building a Convolutional Neural Network Model to Predict Solar Diffuse Irradiance in Cloudy Atmospheres</h1>
+                                        <p>It was even more exciting than the title makes it sound!</p>
+									</header>
+
+									<span class="image main"><img src="images/sunrays_through_clouds.png" alt="" width="200" height="400"></span>
+                                    <caption_body>
+                                    <figcaption> Even when cloudy, solar radiation will find a way to make it through, but it will be scattered in the process &mdash; picture taken by <a href="https://www.flickr.com/photos/pkirtz/15343455567/in/photolist-pnRdMn-8S8uKU-gD1AQf-cXTjVf-9zMBNe-bZ18p3-8gLyR8-5yDjjj-eeXAxJ-iXfpLZ-8jybVh-2khaWg-nDkCQV-ad7x8t-xLEmjx-a5pNuo-7rBvY7-aWpkWt-G9pqGr-ahqDzf-dn27fg-GJmN47-cfmE1G-dnJkP5-8F3QZV-ssChT-iXnNDZ-awfEU8-hyCy9T-doipdj-fDTHoQ-CEWy7N-NXsDxa-9zbx8B-cRVdPd-cBohiA-7Yqpod-9iMNTg-8NCqBj-Knet8q-wTf8sy-vdgEU-7w7fbd-c9wJ39-dL6Az2-ct7dff-4QK5CJ-5gySut-ekL6C3-5HLEjz">Groman123</a>.</figcaption>
+									</caption_body>
+                                
+									<h2>What's More Important, Time or Accuracy?</h2>
+                                    <p>For my bachelor’s thesis I wanted to look at two things: renewable energy and artificial intelligence. Fortunately, I was able to work with LMU’s meteorological institute in Munich with a supervisor who was interested in exactly this. He was concerned with diffuse irradiance (the solar radiation that is scattered as it passes through the atmosphere) and the issues with predicting it. </p>
+									<p>The type of scattering that occurs for radiation as it passes through the atmosphere depends on the size of the particle it interacts with, and the type of scattering can make radiance more likely to scatter in a different direction. But the probability distributions of these events (different types of scattering and the scattering direction) can be found. Because of this, Monte Carlo simulations have the potential to provide accurate predictions of diffuse irradiance on the ground even in cloudy conditions where far more scattering occurs; and indeed Monte Carlo simulations are used, with the gold-standard for photon tracing in cloudy atmospheres being the <a href=http://www.bmayer.de/index.html?mystic.html&1> MYSTIC </a> approach.</p>
+                                    <p>That being said, MYSTIC can be incredibly time-consuming, so a number of convolution-based approaches have been developed as a quick and dirty approximation. These approaches typically solve the radiative transfer equation in its discrete form in 1D to find the irradiance at a particular point, and from this calculate a 2D field on the ground. This is known as the independent column approximation since, if you imagine vertical columns going from a point on the ground to the top of the atmosphere, this approximation ignores interactions between these columns.</p>
+									<image_body>
+                                        <div class="image-container">
+                                            <span class="image object">
+                                                <img src="./images/MYSTIC_13800.png" alt="">
+                                                <figcaption>Example of expected ground-level diffuse irrad-</figcaption>
+                                                <figcaption>iance using MYSTIC Monte Carlo simulations.</figcaption>
+                                            </span>
+                                        
+                                            <span class="image object">
+                                                <img src="./images/ICA_13800.png" alt="">
+                                                <figcaption>Example of predicted ground-level diffuse irrad-</figcaption>
+                                                <figcaption>iance using the independent column approximation.</figcaption>
+												</span>
+										
+                                        </div>
+										</image_body>
+                                        <p></p>
+                                    <p>As you can see from the images above, the lines and shapes using the independent column approximation are much sharper than they should be, the range of irradiance far higher (note the different scales on the two images), and the position of some bright spots shifted. In order to combat this, convolution-based approaches smooth, or arguably “smudge”, the field to approximate the interactions between columns. The difference between different convolution-based approaches is just the particular kernel used for smoothing.</p>
+                                    <hr class="major" />
+
+									<h2>My Work</h2>
+									<p>I started the thesis by getting to grips with the hundreds of NetCDF files showing simulations of cloudy atmospheres with varying degrees of cloud cover &mdash; I’d never used NetCDF files before so this was far more painstaking than I'd expected. Next, I ran the MYSTIC Monte Carlo simulations and the independent column approximations for all cloud simulations, before smoothing the fields generated using the approximations with two different convolution-based approaches. This resulted in the ground irradiance fields shown below.</p>
+                                    <image_body>
+                                        <div class="image-container">
+                                            <span class="image object">
+                                                <img src="./images/Convolution_1.png" alt="">
+												<figcaption>Ground-level diffuse irradiance field for the first</figcaption>
+												<figcaption>convolution-based approach (Conv Field1).</figcaption>
+                                            </span>
+                                            <span class="image object">
+                                                <img src="./images/convolution_2.png" alt="">
+												<figcaption>Ground-level diffuse irradiance field for the second</figcaption>
+												<figcaption> convolution-based approach (Conv Field2).</figcaption>
+												</span>
+										
+                                        </div>
+										</image_body>
+									<p></p>
+                                    <hr class="major" />
+									<h2>Machine Learning Comes into Play</h2>
+									<p>While these convolution-based approaches are quick, even a cursory glance reveals that they are not very good: it feels like they may as well take the average diffuse irradiance instead and they would get values with just as low an error.
+                                        In an attempt to find a better method, I turned to machine learning. More specifically, convolutional neural networks (CNN). Neural networks are machine learning models that function as an interconnected group of simple processing nodes, loosely based on the idea of neurons in the brain.  </p>
+									<p>These networks are made up of many layers, some visible (the input and output layers) and some hidden. In my case, the input layer took one of the sharply defined 2D fields from the independent column approximation, and the output layer was the 2D field predicted by the CNN. A CNN is just a certain type of neural network particularly suited for data with a grid-like structure &mdash; ideal for dealing with the diffuse irradiance input grids.  </p>
+                                    <p>As with most machine learning projects, I started by splitting the input fields into training and test data. I then used PyTorch to create an untrained ResNet model with 18 layers, and began to train it. I tested learning rates between 0.0001 and 0.01 to find an ideal learning rate, and after a number of stages of testing, chose my learning rate to be 0.0004, because it had the lowest mean squared error (MSE) after 25 epochs. The results of the final stage of testing, for learning rates between 0.0002 and 0.0014, are shown below.</p>
+									<p></p>
+							
+                                    <image_body>
+                                        <div class="image-container">
+                                            <span class="image object" style="display: inline-block; margin-right: 100px;">
+                                                <img src="./images/Learning_Rate.png" alt="" width="400" height="400">
+                                                <caption_body><figcaption> Learning rate errors over all 25 epochs.</figcaption></caption_body>
+                                              
+                                            </span>
+                                        
+                                            <span class="image object" style="display: inline-block; margin-right: 0px;">
+                                                <img src="./images/Learning_Rate_Zoomed.png" alt=""width="400" height="400">
+                                                <caption_body><figcaption>Zoomed-in Learning rate errors over final 10 epochs.</figcaption></caption_body>
+                                            
+												</span>
+										
+                                        </div>
+										</image_body>
+                                    <p></p>
+
+									<p>After determining the appropriate learning rate, I trained my CNN on all the available training data, and was hopeful that my model would prove far better than the convolution-based approaches. Mere milliseconds after viewing the outputted 2D fields, my hope vanished. In its quest to minimise the error, the CNN had found a slightly fancier way to average the input fields, as seen below. Whereas the convolution fields look like smudges, the CNN fields are more hypnotic in their inaccurateness. </p>
+									<p>For my thesis I naturally performed various quantitative comparisons of the methods used, but here I’m just going to show the final fields for each method below, and you can be the judge of them. I would be very surprised if you thought any of the methods were anywhere close to the gold-standard MYSTIC field.</p>
+									<image_body>
+                                        <div class="image-container">
+                                            <span class="image object">
+                                                <img src="./images/MYSTIC_13800(b).png" alt="">
+												<figcaption></figcaption>
+                                            </span>
+                                            <span class="image object">
+                                                <img src="./images/CNN_13800.png" alt="">
+												<figcaption></figcaption>
+												</span>
+											<span class="image object">
+												<img src="./images/convolution_1.png" alt="">
+												<figcaption></figcaption>
+												</span>
+											<span class="image object">
+												<img src="./images/convolution_2.png" alt="">
+												<figcaption></figcaption>
+												</span>
+										
+                                        </div>
+										</image_body>
+									<p></p>
+									<p>Why the CNN performed so poorly is a much more interesting question than whether or not it performed well. Put simply, I don’t know, but I can make an educated guess for  three ways to improve the model. The first is to change the cloud simulation data to ones that have a more even spatial irradiance distribution. The MYSTIC irradiance for these simulations was bimodal, which allowed the CNN to achieve a very low error simply by choosing values between the two peaks. The second solution is to use a loss-function compares a small grid of pixels to the corresponding MYSTIC values, rather than pixel to pixel. This would also reduce the effect of the slight shift that appears to have occurred when comparing the input fields to the MYSTIC fields. The final solution is to group the data by their MYSTIC values rather than their time so as to train them to better account for bright and dark spots, rather than the average irradiance for a given time.</p>
+									<p>It’s not clear whether or not these changes would actually result in an improvement, but
+										they are some worthwhile changes that could be implemented, and from there, other problems may arise
+										that can be dealt with.
+										</p>
+									<h2>Final Remark</h2>
+									<p>Although this machine learning project was not a success, I think it is one of my favourite projects: it forced me to think about the use and organisation of data at every step, and also to think deeply about the way in which we measure the success of a model.</p>
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+				<div id="sidebar" class="inactive">
+					<div class="inner">
+
+					
+
+						<!-- Menu -->
+							<nav id="menu">
+								<header class="major">
+									<h2>Menu</h2>
+								</header>
+								<ul>
+									<li><a href="./index.html">Homepage</a></li>
+									<li><a href="./Fractals.html">Fractals and Computer-Aided Design</a></li>
+									<li><a href="./CNN_irradiance.html">Machine Learning</a></li>
+									<li><a href="./Video Stabilisation.html">Python vs. Adobe Premiere Pro</a></li>
+									</nav>
+
+					
+						<!-- Section -->
+							<section>
+								<header class="major">
+									<h2>Get in Touch</h2>
+								</header>
+								<p>If you want to contact me, please do so via email or LinkedIn</p>
+								<ul class="contact">
+									<li ><a href="https://www.linkedin.com/in/joseph-lewis-b531831aa/">Joseph Lewis - LinkedIn</a></li>
+									<li >Email: lewis.joe@outlook.com</li>
+							
+								</ul>
+							</section>
+
+						
+
+					</div>
+				<a href="index.html#sidebar" class="toggle">Toggle</a><a href="index.html#sidebar" class="toggle">Toggle</a></div>
+
+		</div>
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

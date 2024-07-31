@@ -1,0 +1,30 @@
+image_body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45vh; /* Full height of the viewport */
+    margin: 0; /* Remove default margin */
+    background-color: #fff; /* Set the background color to white */
+}
+
+caption_body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5vh; /* Full height of the viewport */
+    margin: 0; /* Remove default margin */
+    background-color: #fff; /* Set the background color to white */
+}
+.image-container {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 20px; /* Adjust the gap as needed */
+    background-color: #fff;
+}
+
+.image.object img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}

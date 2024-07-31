@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Python vs. Adobe Premiere</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong>Back to Homepage</strong> Joseph Lewis Portfolio</a>
+																	</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Python vs. Adobe Premiere Pro</h1>
+                                        <p>Which is better at video stabilisation?</p>
+									</header>
+                                    
+									<p>This project came about because a directing friend of mine was complaining about Adobe Premiere Pro, a subscription-based video editing software. They had been trying to stabilise a dolly shot for their short-film, and the result was very bizarre. I won’t show it here because it’s her intellectual property, but to illustrate the bizarreness we decided to recreate the shot, keeping its key characteristics (poorly stabilised, camera backing away, actor coming towards the shot etc).</p>
+                                    <p>
+                                        After this I got her to stabilise the video using Adobe Premiere Pro. Like her shot, this result was also somewhat bizarre. Below is the original, unstabilised video on the left, with the best “stabilised” version that she could get using Adobe. Also note that most videos used here are of poor quality; this was simply to reduce the size of the files.
+                                        </p>
+                                    <image_body>
+										<div class="image-container">
+                                            <span class="image object">
+                                                <video src="./videos/dolly_alt_orig.mp4" controls width="400" height="300">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                <figcaption> Original, unstabilised video.</figcaption>
+											</span>
+											
+											<span class="image object">
+                                                <video src="./videos/dolly_alt_adobe.mp4" controls width="400" height="300">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                <figcaption> "Stabilised" using Adobe Premiere Pro.</figcaption>
+											</span>
+											
+												</div>
+												</image_body>
+										<p></p>	
+									<p>The strangeness of the Adobe video is particularly clear within the first five seconds of the Adobe video. The software appears to struggle to differentiate her movement from the camera’s. The result is a jarring twisting motion that isn’t present in the original. I was surprised that the Adobe result was so poor, because my understanding was it was a highly developed video editing software (which it is). I wanted to know why it struggled to stabilise what to me was a fairly straightforward video &mdash; compared to say, the very shaky headcam footage of a skier going down hill which it seems to find easy &mdash; and also see if I could create a python programme that would do a better job at stabilisation.</p>
+									
+									<hr class="major" />
+
+									<h2>How Does Video Stabilisation Software Work?</h2>
+                                    <p>The simplest way to stabilise video is to pick out easy-to-detect features, estimate their motion frame by frame, and then compensate for this motion. The first step is feature detection. This is often done by detecting “corners”, points which are hard to confuse with other points in the image. For example, consider the blue rectangle below with points A,B,C and D. Point A is hard to discern from any other point within the rectangle. Point B has fewer similar points, but nevertheless can’t be distinguished from any other point along the top edge of the rectangle. Points C and D however, i.e. the corners, are unique in the image.</p>
+                                    <image_body>
+                                        <div class="image-container">
+                                            <span class="image object">
+                                                <img src="./images/corner_example.png" alt="">
+                                                <figcaption>Look at the image above, which of the points (A,B,C or D) are</figcaption>
+                                                <figcaption> least likely to be confused with other points in the image?</figcaption>
+                                            </span>
+                                            </div>
+                                                </image_body>
+                                                <p></p>
+									<p>There is no single, indisputably superior way to determine the best corners, but a common approach is to use the Shi-Tomasi corner detection algorithm. The starting idea is fairly simple: if you are at a corner point and move slightly away from the point, there will be a large relative change in intensity. The sum of the changes in intensity for a corner point will therefore be larger than for an edge point or point in a homogeneous area. E.g. at point A, the change in intensity in any direction is zero, but will be non-zero for the points B, C and D. </p>
+									<p>Because we are only considering changes in intensity, the frames are converted to greyscale before the corner-detection algorithms are implemented. An example frame from our video is shown below, with the OpenCV library being used to determine the best corners (shown as white dots).</p>
+                                    <image_body>
+                                        <div class="image-container">
+                                            <span class="image object">
+                                                <img src="./images/corner_Lau.png" alt="">
+                                                <figcaption>The corners in the frame from the video are shown here as small white dots</figcaption>
+                                                <figcaption> Note that there aren't any corners nearby to each other &mdash; the minimum</figcaption>
+                                                <figcaption>distance between corners can be controlled within the programme.</figcaption>
+                                            </span>
+                                            </div>
+                                                </image_body>
+                                                <p></p>
+                                                <p>Next up is motion estimation, or tracking the motion of these corners between frames. This can be done using Optical Flow techniques, which assumes that each object’s pixel intensity stays constant throughout the video, and that neighbouring pixels have the same motion throughout frames, and hence move as a group. From this a global motion vector can be found, which takes the average of each points local motion vector. Like the Shi-Tomasi corner detection algorithm, optical flow can be implemented using the OpenCV library.</p>
+									<p>Finally, the motion is compensated for, which can be done in various ways, tow of which are mean filtering and Fourier filtering. For an unstable shot, if the global motion vector were to be plotted as a line over time, it would appear jagged rather than smooth. Mean filtering works as a sort of convolution, in that it smooths out this line by averaging it with the global motion vectors of neighbouring frames. Fourier filtering, meanwhile, works in Fourier space to identify high frequency components e.g. a rapid, periodic shaking of the camera caused by a person’s hand. The use of Fourier space therefore works particularly well at removing very quick, shaky movements. </p>
+                                    
+									<hr class="major" />
+
+									<h2>So Why Does Adobe Software React the Way it Does?</h2>
+									<p>It seems likely that Adobe’s shortfalls do not come from its software, but the limited flexibility with which its users can interact with said software. For example, optical flow techniques do not work well when there are large, moving objects in the frame such as my friend. This is because the movement of these objects affects the  global motion vector. However, using my python programme allowed me to take a context-specific approach where I required a large minimum distance between corners. This dramatically reduced the number of corners that corresponded to my friend (see how the white dots in the greyscale image are all fairly separated even though there are likely better corners closer together &mdash; e.g. around the face as it contrasts with the wall).</p>
+									<p>Adobe, in contrast, doesn’t have user-control over these parameters, and hence it may struggle to deal with large, moving objects in frames. There are other parameters and aspects that could be changed but the minimum distance was a key one.</p>
+                                    <hr class="major" />
+
+									<h2>Final Videos</h2>
+                                    <p>The final, stabilised video is shown below, with the original video next to is. See if you can see which one has been stabilised. I have also included a plot of the pixels' average x displacement for the original video and the video stabilised with my programme. This is just because it shows the smoothing of the motion that I was talking about before quite well. Some of the bigger camera movements are subdued slightly as a result, but in our case this isn’t a significant issue.</p>
+                                    <image_body>
+                                        <div class="image-container">
+                                            <span class="image object">
+                                                <img src="./images/x_displacement.png" alt="">
+                                                <figcaption>The displacement of the pixels in the stabilised video is less jagged</figcaption>
+                                                <figcaption> than in the original, indicating the video has been stabilised.</figcaption>
+                                            </span>
+                                            </div>
+                                                </image_body>
+                                                <p></p>
+                                                <image_body>
+                                                    <div class="image-container">
+                                                        <span class="image object">
+                                                            <video src="./videos/dolly_alt_mindist.mp4" controls width="400" height="300">
+                                                                Your browser does not support the video tag.
+                                                            </video>
+                                                            <figcaption> Original video and video stabilised using Python. Which is which?</figcaption>
+                                                        </span>
+                                                     </div>
+                                                </image_body>
+                                                <p></p>
+                                    <p>In case it wasn’t clear (although I hope it was), the stabilised video is the one on the right.</p>
+                                    <p>While I do believe that my programme was better at stabilising the video than Adobe, this obviously doesn’t mean that Python is better for video editing in general, or even for video stabilisation alone. Instead, I believe it highlights the potential benefits of simple programmes over large, unwieldy software in highly contextual situations. </p>
+                                    <p>That and it was a bit of fun! </p>
+                                </section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+				<div id="sidebar" class="inactive">
+					<div class="inner">
+
+					
+
+						<!-- Menu -->
+							<nav id="menu">
+								<header class="major">
+									<h2>Menu</h2>
+								</header>
+								<ul>
+									<li><a href="./index.html">Homepage</a></li>
+									<li><a href="./Fractals.html">Fractals and Computer-Aided Design</a></li>
+									<li><a href="./CNN_irradiance.html">Machine Learning</a></li>
+									<li><a href="./Video Stabilisation.html">Python vs. Adobe Premiere Pro</a></li>
+									</nav>
+
+					
+						<!-- Section -->
+							<section>
+								<header class="major">
+									<h2>Get in Touch</h2>
+								</header>
+								<p>If you want to contact me, please do so via email or LinkedIn</p>
+								<ul class="contact">
+									<li ><a href="https://www.linkedin.com/in/joseph-lewis-b531831aa/">Joseph Lewis - LinkedIn</a></li>
+									<li >Email: lewis.joe@outlook.com</li>
+							
+								</ul>
+							</section>
+
+						
+
+					</div>
+				<a href="index.html#sidebar" class="toggle">Toggle</a><a href="index.html#sidebar" class="toggle">Toggle</a></div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,223 @@
+
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Fractals</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong>Back to Homepage</strong> Joseph Lewis Portfolio</a>
+									
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Fractals and Computer-Aided Design</h1>
+										<p>Can we replicate the beauty and efficiency seen in nature using 3D printing? or does nature continue to reign supreme?</p>
+									</header>
+
+									<image_body>
+                                        <div class="image-container">
+                                            <span class="image object">
+                                                <img src="./images/Fractal_Treeflickr.jpg" alt="">
+                                            </span>
+                                            <span class="image object">
+                                                <img src="./images/10thGen_tree.png" alt="">
+												</span>
+										
+                                        </div>
+										</image_body>
+										<caption_body>
+										<figcaption>We wanted to know if our computer designed, 3D printed fractal trees could have the same advantages as those found in nature (Picture of tree taken by <a href="https://www.flickr.com/photos/slowtek/15758594606/in/photolist-q1wVa1-7dgUb-2oMAzoo-5bfB2U-2n38ZPv-kGrcb9-5S7rFR-8d42UW-CscdBb-E9wwjs-DupsL-2i3ve5e-8sZuGJ-kZ19z5-uAbYuZ-bsaMm-8d438L-4iSH9G-84C9X9-8PV6sE-2aEXTqG-hXP1Rb-pdnWJP-nfscyv-qQMWXR-2nEAKTS-93ah2D-zEonGK-9S5Nn-DAsQ-9hngV4-4FiHW8-2hZ8UYP-4qzDCj-uc8VSS-a6kMyb-285WXd4-4cqpkq-vjUCP-rXXxTq-2oeHj78-PHdMMQ-Q68J1T-2pFceio-6W49Xi-SHDYMH-2m2SRAH-4kFvx8-7krVwX-2i8yEfn/"> Daniel Johnson</a>).
+										</figcaption>
+									</caption_body>
+									<h2>Why the Interest in Fractals? </h2>
+
+									<p>Fractal patterns have an intimate connection with nature and humanity. They can be seen
+										throughout the natural world, within humans, and even in the architecture of different cultures. In short, they are patterns that are self-similar at various length-scales.
+										 This can also be thought of as the parts resembling the whole. In theory, the pattern used can be replicated at smaller and smaller lengths indefinitely, but natural fractals are limited by needing to exist in the real world. 
+										 A well-known fractal pattern is the Koch snowflake. The snowflake starts off as an equilateral triangle, but after a number of iterations triangles and snowflake patterns of many different sizes can be seen. 
+										 As the animation progresses, the fractal generation (the number of length-scales for which self-similarity is present) of the snowflake shown increases. 
+										</p>
+										<div class="image-container"><span class="image object">
+											<img src="./images/Koch_Snowflake.gif" alt="">
+										</span></div>
+										<p></p>												
+									<p>However, the beauty of fractals runs so much deeper than their appearance. They are incredibly efficient structures that can serve a variety of purposes. Consider how strong the Eiffel tower and the Amazonian lily-pad can both be compared to their volume, or how impressive the lungs and circulatory system are &mdash; all of these structures are fractal in nature. </p>
+									<p>For our master’s thesis, we wanted to see if we could 3D print structures with fractal properties, in the hope of creating two types of structures: those with high structural efficiency (strong, but light weight) and those with high exchange efficiency (think branching structures like the lungs, trees and leaf venation systems). To do this we designed the structures using computer-aided design (CAD) software, in our case OpenSCAD, before meekly asking people more experienced with 3D printing for help to print the designs, and working with them to solve any problems that arose.</p>
+										<p>As with any research project, it goes without saying that this was a long and frustrating process, so I thought I’d spare you the pain and stick to the good bits.</p>
+									<hr class="major" />
+
+									<h2>Strong, Lightweight Structures</h2>
+									<p>My partner took the lead on designing structurally efficient structures; he used a spaceframe design whose theory our supervisor had been working on. The spaceframe design is a hollow-beam structure with a tetrahedron at both ends and octahedra in the middle. </p>
+									<p>Due the modular nature of the spaceframe design this process was mercifully smooth, and we were able to design a 
+										2nd generation spaceframe (where the beams in the spaceframe are made from 1st generation spaceframes) and also print a 1st generation spaceframe. 
+										The journey of the spaceframe is shown below, starting with my supervisor’s designs, moving to the 2nd generation CAD design,
+										 and ending with the 1st generation printed design. Unfortunately, 
+										limitations in computer power and 3D printing  meant we couldn’t produce any higher generation spaceframes.</p>
+									<image_body>
+                                        <div class="image-container">
+                                            <span class="image object">
+                                                <img src="./images/spaceframe_yong1.png" alt="">
+                                            </span>
+                                            <span class="image object">
+                                                <img src="./images/spaceframe_cad.png" alt="">
+												</span>
+											<span class="image object">
+												<img src="./images/spaceframe_printed.png" alt="">
+												</span>
+										
+                                        </div>
+										</image_body>
+									<hr class="major" />
+
+									<h2>Fractal Exchange</h2>
+									<p>Nature’s default design for exchange systems is a hollow fractal tree &mdash; 
+										the branching patterns for leaf venation, blood circulatory systems and the lungs of
+										 many animals are all approximately fractal &mdash; so I kept this approach in the designs. 
+										</p>
+									<p>When designing a fractal tree, there are two key characteristics that affect its maximal
+										exchange efficiency: the generation number and the homothetic ratio (the size ratio between 
+										a parent and daughter branch). Typically, the higher the generation, the higher the efficiency
+										 (as seen in the human lungs which branch approximately 23 times).
+										</p>
+										<p>However, the ideal homothetic ratio is more difficult to calculate. It often depends on the 
+											context of the system, but a good starting point is the Hess-Murray law. This dates back to the 
+											early 20th century, and states that, for a system the branches into two at each branching point,
+											 the daughter branches must be approximately 0.8 times their parent branch.</p>
+									
+									<hr class="major" />
+									<h3>Arthritis (i.e. Joint Problems)</h3>
+									<p>One of the most surprising (and entertaining) issues was creating a branching joint that minimised the 
+										disruption of the fluid flow inside. For the rectangular cross-sections, a cute design could be made that
+										 used an end shaped like an isosceles triangle, the length of the equal sides determining the branching angle,
+										  which in turn determined the homothetic ratio.</p>
+									<p>In contrast, the joint for the circular cross-section was more complicated. Initially, I used a ball-joint to connect 
+										the daughter branches, but this caused two problems: if the ball was too big the flow might be disrupted, and if the 
+										ball was such that it had a radius equal to that of the pipe, the homothetic ratio couldn't be greater than approximately 0.7 &mdash;
+										0.1 below that required by the Hess-Murray law.</p>
+									<p>To get around this, I developed a three-ovoid approach that would essentially use a ball-joint for a homothetic ratio 
+											equal or below 0.7, and after this used an ovoid with two smaller ovoids that would slot into the daughter branches. 
+											The smaller ovoids were then hollowed out and shaved down. The progression of the joint is shown in the images below;
+											 the first image shows the ball-joint, and the final image shows the shaved-down three-ovoid joint. </p>
+										<image_body>
+											<div class="image-container">
+												<span class="image object">
+													<img src="./images/sphere_joint.png" alt="">
+												</span>
+												<span class="image object">
+													<img src="./images/ovoid_joint.png" alt="">
+													</span>
+												<span class="image object">
+													<img src="./images/trisphere_joint.png" alt="">
+													</span>
+													<span class="image object">
+														<img src="./images/shaved_trisphere_joint.png" alt="">
+														</span>
+											
+											</div>
+											</image_body>
+										<p>Once connected to a branch, this joint was hollowed out, resulting in a smooth joint that allowed homothetic ratios of all values between zero and one, while allowing fluid to flow through the strucure with minimal disruption.</p>
+											
+										<hr class="major" />
+										<h3>Final Designs</h3>
+										<p>To design the fractal trees, I took a recursive approach. A starting branch
+											 is run through a programme and this results in the programme being called 
+											 again for two daughter branches, which then recalls the programme for their 
+											 four daughter branches, and so on until the pre-defined generation number is reached. 
+											 This was done for fractal trees with a rectangular cross-section and trees with a 
+											 circular cross-section, as shown below.</p>
+										<image_body>
+										<div class="image-container">
+											<span class="image object">
+												<img src="./images/rectangular_tree.png" alt="">
+											</span>
+											<span class="image object">
+												<img src="./images/circular_tree.png" alt="">
+												</span>
+												</div>
+												</image_body>
+											
+										<p>After this, we were able to print a seventh generation fractal tree with rectangular cross-sections which is included below. </p>
+										<image_body>
+											<div class="image-container">
+												<span class="image object">
+													<img src="./images/printed_tree.png" alt="">
+												</span>
+												</div>
+													</image_body>
+													<p></p>
+										<p>Even though we were able to 3D print fractal structures, printing, computing and design
+											 limitations meant we were far from reaching the complexity seen in natural systems. 
+											 This suggests that, for now, nature reigns supreme.</p>
+											</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+				<div id="sidebar" class="inactive">
+					<div class="inner">
+
+					
+
+						<!-- Menu -->
+							<nav id="menu">
+								<header class="major">
+									<h2>Menu</h2>
+								</header>
+								<ul>
+									<li><a href="./index.html">Homepage</a></li>
+									<li><a href="./Fractals.html">Fractals and Computer-Aided Design</a></li>
+									<li><a href="./CNN_irradiance.html">Machine Learning</a></li>
+									<li><a href="./Video Stabilisation.html">Python vs. Adobe Premiere Pro</a></li>
+									</nav>
+
+					
+						<!-- Section -->
+							<section>
+								<header class="major">
+									<h2>Get in Touch</h2>
+								</header>
+								<p>If you want to contact me, please do so via email or LinkedIn</p>
+								<ul class="contact">
+									<li ><a href="https://www.linkedin.com/in/joseph-lewis-b531831aa/">Joseph Lewis - LinkedIn</a></li>
+									<li >Email: lewis.joe@outlook.com</li>
+							
+								</ul>
+							</section>
+
+						
+
+					</div>
+				<a href="index.html#sidebar" class="toggle">Toggle</a><a href="index.html#sidebar" class="toggle">Toggle</a></div>
+
+		</div>
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
